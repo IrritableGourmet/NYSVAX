@@ -28,24 +28,17 @@
 
 			<div class="col-8">
 				<div class="border bg-light p-3">
-					<div class="alert alert-danger d-none" role="alert" id="div_hippa_alert">
-						<div class="btn-group position-absolute top-0 end-0 m-2" role="group">
-							<button type="button" id="btn_hippa_bump" class="btn btn-primary">Extend</button>
-							<button type="button" id="btn_hippa_clear" class="btn btn-warning">Clear</button>
-						</div>
-						<div id="div_hippa_timer"></div>
-					</div>
+					<button type="button" id="btn_calculate" class="btn btn-primary">Calculate</button>
 					<textarea id="txt_hippa" class="form-control" style="min-height: 400px"></textarea>
-					
 				</div>
 			</div>
 		</div>
 	</div>
 </body>
 
-<script type='text/javascript' src="scripts.js"></script>
+<script type='text/javascript' src="ScheduleCalculator.js"></script>
 <script type='text/javascript'>
-	window.schedules = new ScheduleHandler("dd_schedules", "div_schedules_status");
+	window.schedules = new ScheduleCalculator("dd_schedules", "div_schedules_status");
 	window.scratchpad = new ScratchPad("txt_hippa", "div_hippa_alert", "div_hippa_timer", "btn_hippa_bump", "btn_hippa_clear");
 </script>
 
