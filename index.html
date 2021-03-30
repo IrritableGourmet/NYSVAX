@@ -15,28 +15,31 @@
 		<div class="row gy-3 gx-2">
 			<div class="col-12">
 				<div class="border bg-light p-3">
-					Status
+					<h2>ScratchPad</h2>
 				</div>
 			</div>
 			
-			<div class="col-4">
+			<div class="col-lg-4">
 				<div class="border bg-light p-3">
+					<h4>Schedule</h4>
 					<select id="dd_schedules" class="form-select"></select>
 					<div class="alert alert-primary" id="div_schedules_status"></div>
 				</div>
 			</div>
 
-			<div class="col-8">
+			<div class="col-lg-8">
 				<div class="border bg-light p-3">
+					<h4>Secure Notes</h4>
+					
+					<textarea id="txt_hippa" class="form-control" style="min-height: 400px"></textarea>
+					
 					<div class="alert alert-danger d-none" role="alert" id="div_hippa_alert">
-						<div class="btn-group position-absolute top-0 end-0 m-2" role="group">
+						<div id="div_hippa_timer"></div>
+						<div class="btn-group col-12" role="group">
 							<button type="button" id="btn_hippa_bump" class="btn btn-primary">Extend</button>
 							<button type="button" id="btn_hippa_clear" class="btn btn-warning">Clear</button>
 						</div>
-						<div id="div_hippa_timer"></div>
-					</div>
-					<textarea id="txt_hippa" class="form-control" style="min-height: 400px"></textarea>
-					
+					</div>					
 				</div>
 			</div>
 		</div>

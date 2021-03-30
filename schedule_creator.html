@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
 
-  <title>NYSVAX Agent Scratchpad</title>
+  <title>NYSVAX Utilities</title>
   <meta name="description" content="">
   <meta name="author" content="">
   <link rel="stylesheet" href="bootstrap.css"/>
@@ -18,18 +18,17 @@
 					Status
 				</div>
 			</div>
-			
-			<div class="col-4">
-				<div class="border bg-light p-3">
-					<select id="dd_schedules" class="form-select"></select>
-					<div class="alert alert-primary" id="div_schedules_status"></div>
-				</div>
-			</div>
 
-			<div class="col-8">
+			<div class="col-12">
 				<div class="border bg-light p-3">
 					<button type="button" id="btn_calculate" class="btn btn-primary">Calculate</button>
 					<textarea id="txt_hippa" class="form-control" style="min-height: 400px"></textarea>
+				</div>
+			</div>
+
+			<div class="col-12">
+				<div class="border bg-light p-3">
+					<pre><code id="txt_output"></code></pre>
 				</div>
 			</div>
 		</div>
@@ -38,8 +37,7 @@
 
 <script type='text/javascript' src="ScheduleCalculator.js"></script>
 <script type='text/javascript'>
-	window.schedules = new ScheduleCalculator("dd_schedules", "div_schedules_status");
-	window.scratchpad = new ScratchPad("txt_hippa", "div_hippa_alert", "div_hippa_timer", "btn_hippa_bump", "btn_hippa_clear");
+	window.schedules = new ScheduleCalculator("btn_calculate", "txt_hippa", "txt_output");
 </script>
 
 </html>

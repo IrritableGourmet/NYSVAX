@@ -1,3 +1,12 @@
+class PageHandler{
+	constructor(){
+		this.schedule_handler = new ScheduleHandler("dd_schedules", "div_schedules_status");
+		this.scratchpad = new ScratchPad("txt_hippa", "div_hippa_alert", "div_hippa_timer", "btn_hippa_bump", "btn_hippa_clear");
+		this.borough_manager
+	}
+}
+
+
 class ScheduleHandler{
 	constructor(dropdown_id, status_id){
 
@@ -15,13 +24,13 @@ class ScheduleHandler{
 
 		this.dropdown.addEventListener('change', this.handleScheduleChange.bind(this));
 
-		let json_schedules = [{"line":"7am-3:30pm B1: 9-9:15 L: 11:15-11:45 B2: 1:45-2","day":{"start":"2021-03-29T11:00:00.000Z","end":"2021-03-29T19:30:00.000Z"},"B1":{"start":"2021-03-29T13:00:00.000Z","end":"2021-03-29T13:15:00.000Z"},"B2":{"start":"2021-03-29T17:45:00.000Z","end":"2021-03-29T18:00:00.000Z"},"Lunch":{"start":"2021-03-29T15:15:00.000Z","end":"2021-03-29T15:45:00.000Z"}},{"line":"7:30am-4pm B1: 9:15-9:30 L: 11:30-12 B2: 2-2:15","day":{"start":"2021-03-29T11:30:00.000Z","end":"2021-03-29T20:00:00.000Z"},"B1":{"start":"2021-03-29T13:15:00.000Z","end":"2021-03-29T13:30:00.000Z"},"B2":{"start":"2021-03-29T18:00:00.000Z","end":"2021-03-29T18:15:00.000Z"},"Lunch":{"start":"2021-03-29T15:30:00.000Z","end":"2021-03-29T16:00:00.000Z"}},{"line":"8am-4:30pm B1: 10-10:15 L: 12-12:30 B2: 2:15-2:30","day":{"start":"2021-03-29T12:00:00.000Z","end":"2021-03-29T20:30:00.000Z"},"B1":{"start":"2021-03-29T14:00:00.000Z","end":"2021-03-29T14:15:00.000Z"},"B2":{"start":"2021-03-29T18:15:00.000Z","end":"2021-03-29T18:30:00.000Z"},"Lunch":{"start":"2021-03-29T16:00:00.000Z","end":"2021-03-29T16:30:00.000Z"}},{"line":"8:30am-5pm B1: 10:15-10:30 L: 12:15-12:45 B2: 2:30-2:45","day":{"start":"2021-03-29T12:30:00.000Z","end":"2021-03-29T21:00:00.000Z"},"B1":{"start":"2021-03-29T14:15:00.000Z","end":"2021-03-29T14:30:00.000Z"},"B2":{"start":"2021-03-29T18:30:00.000Z","end":"2021-03-29T18:45:00.000Z"},"Lunch":{"start":"2021-03-29T16:15:00.000Z","end":"2021-03-29T16:45:00.000Z"}},{"line":"9am-5:30pm B1: 11-11:15 L: 1-1:30 B2: 3:15-3:30","day":{"start":"2021-03-29T13:00:00.000Z","end":"2021-03-29T21:30:00.000Z"},"B1":{"start":"2021-03-29T15:00:00.000Z","end":"2021-03-29T15:15:00.000Z"},"B2":{"start":"2021-03-29T19:15:00.000Z","end":"2021-03-29T19:30:00.000Z"},"Lunch":{"start":"2021-03-29T17:00:00.000Z","end":"2021-03-29T17:30:00.000Z"}},{"line":"9:30am-6pm B1: 11:45-12 L: 1:15-1:45 B2: 3:30-3:45","day":{"start":"2021-03-29T13:30:00.000Z","end":"2021-03-29T22:00:00.000Z"},"B1":{"start":"2021-03-29T15:45:00.000Z","end":"2021-03-29T16:00:00.000Z"},"B2":{"start":"2021-03-29T19:30:00.000Z","end":"2021-03-29T19:45:00.000Z"},"Lunch":{"start":"2021-03-29T17:15:00.000Z","end":"2021-03-29T17:45:00.000Z"}},{"line":"10am-6:30pm B1: 12:15-12:30 L: 2:15-2:45 B2: 5:15-5:30","day":{"start":"2021-03-29T14:00:00.000Z","end":"2021-03-29T22:30:00.000Z"},"B1":{"start":"2021-03-29T16:15:00.000Z","end":"2021-03-29T16:30:00.000Z"},"B2":{"start":"2021-03-29T21:15:00.000Z","end":"2021-03-29T21:30:00.000Z"},"Lunch":{"start":"2021-03-29T18:15:00.000Z","end":"2021-03-29T18:45:00.000Z"}},{"line":"10:30am-7pm B1: 12:30-12:45 L: 2:30-3 B2: 5:30-5:45","day":{"start":"2021-03-29T14:30:00.000Z","end":"2021-03-29T23:00:00.000Z"},"B1":{"start":"2021-03-29T16:30:00.000Z","end":"2021-03-29T16:45:00.000Z"},"B2":{"start":"2021-03-29T21:30:00.000Z","end":"2021-03-29T21:45:00.000Z"},"Lunch":{"start":"2021-03-29T18:30:00.000Z","end":"2021-03-29T19:00:00.000Z"}},{"line":"11am-7:30pm B1: 1:15-1:30 L: 3:45-4:15 B2: 6-6:15","day":{"start":"2021-03-29T15:00:00.000Z","end":"2021-03-29T23:30:00.000Z"},"B1":{"start":"2021-03-29T17:15:00.000Z","end":"2021-03-29T17:30:00.000Z"},"B2":{"start":"2021-03-29T22:00:00.000Z","end":"2021-03-29T22:15:00.000Z"},"Lunch":{"start":"2021-03-29T19:45:00.000Z","end":"2021-03-29T20:15:00.000Z"}},{"line":"11:30am-8pm B1: 1:30-1:45 L: 4:15-4:45 B2: 6:15-6:30","day":{"start":"2021-03-29T15:30:00.000Z","end":"2021-03-30T00:00:00.000Z"},"B1":{"start":"2021-03-29T17:30:00.000Z","end":"2021-03-29T17:45:00.000Z"},"B2":{"start":"2021-03-29T22:15:00.000Z","end":"2021-03-29T22:30:00.000Z"},"Lunch":{"start":"2021-03-29T20:15:00.000Z","end":"2021-03-29T20:45:00.000Z"}},{"line":"12pm-8:30pm B1: 2:45-3 L: 4:45-5:15 B2: 7-7:15","day":{"start":"2021-03-30T04:00:00.000Z","end":"2021-03-30T00:30:00.000Z"},"B1":{"start":"2021-03-29T18:45:00.000Z","end":"2021-03-29T19:00:00.000Z"},"B2":{"start":"2021-03-29T23:00:00.000Z","end":"2021-03-29T23:15:00.000Z"},"Lunch":{"start":"2021-03-29T20:45:00.000Z","end":"2021-03-29T21:15:00.000Z"}},{"line":"12:30pm-9pm B1: 3-3:15 L: 5:15-5:45 B2: 7:15-7:30","day":{"start":"2021-03-30T04:30:00.000Z","end":"2021-03-30T01:00:00.000Z"},"B1":{"start":"2021-03-29T19:00:00.000Z","end":"2021-03-29T19:15:00.000Z"},"B2":{"start":"2021-03-29T23:15:00.000Z","end":"2021-03-29T23:30:00.000Z"},"Lunch":{"start":"2021-03-29T21:15:00.000Z","end":"2021-03-29T21:45:00.000Z"}},{"line":"1pm-9:30pm B1: 3:15-3:30 L: 5:45-6:15 B2: 7:45-8","day":{"start":"2021-03-29T17:00:00.000Z","end":"2021-03-30T01:30:00.000Z"},"B1":{"start":"2021-03-29T19:15:00.000Z","end":"2021-03-29T19:30:00.000Z"},"B2":{"start":"2021-03-29T23:45:00.000Z","end":"2021-03-30T00:00:00.000Z"},"Lunch":{"start":"2021-03-29T21:45:00.000Z","end":"2021-03-29T22:15:00.000Z"}},{"line":"1:30pm-10pm B1: 3:30-3:45 L: 6:15-6:45 B2: 8:15-8:30","day":{"start":"2021-03-29T17:30:00.000Z","end":"2021-03-30T02:00:00.000Z"},"B1":{"start":"2021-03-29T19:30:00.000Z","end":"2021-03-29T19:45:00.000Z"},"B2":{"start":"2021-03-30T00:15:00.000Z","end":"2021-03-30T00:30:00.000Z"},"Lunch":{"start":"2021-03-29T22:15:00.000Z","end":"2021-03-29T22:45:00.000Z"}}];
+		let json_schedules = [{"name":"7:00AM - 3:30PM","times":[{"name":"Day Start","hour":"11", "minute":"00"},{"name":"Break 1 Start","hour":"13", "minute":"00"},{"name":"Break 1 End","hour":"13", "minute":"15"},{"name":"Lunch Start","hour":"15", "minute":"15"},{"name":"Lunch End","hour":"15", "minute":"45"},{"name":"Break 2 Start","hour":"17", "minute":"45"},{"name":"Break 2 End","hour":"18", "minute":"00"},{"name":"Day End","hour":"19", "minute":"30"}]},{"name":"7:30AM - 4:00PM","times":[{"name":"Day Start","hour":"11", "minute":"30"},{"name":"Break 1 Start","hour":"13", "minute":"15"},{"name":"Break 1 End","hour":"13", "minute":"30"},{"name":"Lunch Start","hour":"15", "minute":"30"},{"name":"Lunch End","hour":"16", "minute":"00"},{"name":"Break 2 Start","hour":"18", "minute":"00"},{"name":"Break 2 End","hour":"18", "minute":"15"},{"name":"Day End","hour":"20", "minute":"00"}]},{"name":"8:00AM - 4:30PM","times":[{"name":"Day Start","hour":"12", "minute":"00"},{"name":"Break 1 Start","hour":"14", "minute":"00"},{"name":"Break 1 End","hour":"14", "minute":"15"},{"name":"Lunch Start","hour":"16", "minute":"00"},{"name":"Lunch End","hour":"16", "minute":"30"},{"name":"Break 2 Start","hour":"18", "minute":"15"},{"name":"Break 2 End","hour":"18", "minute":"30"},{"name":"Day End","hour":"20", "minute":"30"}]},{"name":"8:30AM - 5:00PM","times":[{"name":"Day Start","hour":"12", "minute":"30"},{"name":"Break 1 Start","hour":"14", "minute":"15"},{"name":"Break 1 End","hour":"14", "minute":"30"},{"name":"Lunch Start","hour":"16", "minute":"15"},{"name":"Lunch End","hour":"16", "minute":"45"},{"name":"Break 2 Start","hour":"18", "minute":"30"},{"name":"Break 2 End","hour":"18", "minute":"45"},{"name":"Day End","hour":"21", "minute":"00"}]},{"name":"9:00AM - 5:30PM","times":[{"name":"Day Start","hour":"13", "minute":"00"},{"name":"Break 1 Start","hour":"15", "minute":"00"},{"name":"Break 1 End","hour":"15", "minute":"15"},{"name":"Lunch Start","hour":"17", "minute":"00"},{"name":"Lunch End","hour":"17", "minute":"30"},{"name":"Break 2 Start","hour":"19", "minute":"15"},{"name":"Break 2 End","hour":"19", "minute":"30"},{"name":"Day End","hour":"21", "minute":"30"}]},{"name":"9:30AM - 6:00PM","times":[{"name":"Day Start","hour":"13", "minute":"30"},{"name":"Break 1 Start","hour":"15", "minute":"45"},{"name":"Break 1 End","hour":"16", "minute":"00"},{"name":"Lunch Start","hour":"17", "minute":"15"},{"name":"Lunch End","hour":"17", "minute":"45"},{"name":"Break 2 Start","hour":"19", "minute":"30"},{"name":"Break 2 End","hour":"19", "minute":"45"},{"name":"Day End","hour":"22", "minute":"00"}]},{"name":"10:00AM - 6:30PM","times":[{"name":"Day Start","hour":"14", "minute":"00"},{"name":"Break 1 Start","hour":"16", "minute":"15"},{"name":"Break 1 End","hour":"16", "minute":"30"},{"name":"Lunch Start","hour":"18", "minute":"15"},{"name":"Lunch End","hour":"18", "minute":"45"},{"name":"Break 2 Start","hour":"21", "minute":"15"},{"name":"Break 2 End","hour":"21", "minute":"30"},{"name":"Day End","hour":"22", "minute":"30"}]},{"name":"10:30AM - 7:00PM","times":[{"name":"Day Start","hour":"14", "minute":"30"},{"name":"Break 1 Start","hour":"16", "minute":"30"},{"name":"Break 1 End","hour":"16", "minute":"45"},{"name":"Lunch Start","hour":"18", "minute":"30"},{"name":"Lunch End","hour":"19", "minute":"00"},{"name":"Break 2 Start","hour":"21", "minute":"30"},{"name":"Break 2 End","hour":"21", "minute":"45"},{"name":"Day End","hour":"23", "minute":"00"}]},{"name":"11:00AM - 7:30PM","times":[{"name":"Day Start","hour":"15", "minute":"00"},{"name":"Break 1 Start","hour":"17", "minute":"15"},{"name":"Break 1 End","hour":"17", "minute":"30"},{"name":"Lunch Start","hour":"19", "minute":"45"},{"name":"Lunch End","hour":"20", "minute":"15"},{"name":"Break 2 Start","hour":"22", "minute":"00"},{"name":"Break 2 End","hour":"22", "minute":"15"},{"name":"Day End","hour":"23", "minute":"30"}]},{"name":"11:30AM - 8:00PM","times":[{"name":"Day Start","hour":"15", "minute":"30"},{"name":"Break 1 Start","hour":"17", "minute":"30"},{"name":"Break 1 End","hour":"17", "minute":"45"},{"name":"Lunch Start","hour":"20", "minute":"15"},{"name":"Lunch End","hour":"20", "minute":"45"},{"name":"Break 2 Start","hour":"22", "minute":"15"},{"name":"Break 2 End","hour":"22", "minute":"30"},{"name":"Day End","hour":"00", "minute":"00"}]},{"name":"12:00AM - 8:30PM","times":[{"name":"Day Start","hour":"04", "minute":"00"},{"name":"Break 1 Start","hour":"18", "minute":"45"},{"name":"Break 1 End","hour":"19", "minute":"00"},{"name":"Lunch Start","hour":"20", "minute":"45"},{"name":"Lunch End","hour":"21", "minute":"15"},{"name":"Break 2 Start","hour":"23", "minute":"00"},{"name":"Break 2 End","hour":"23", "minute":"15"},{"name":"Day End","hour":"00", "minute":"30"}]},{"name":"12:30AM - 9:00PM","times":[{"name":"Day Start","hour":"04", "minute":"30"},{"name":"Break 1 Start","hour":"19", "minute":"00"},{"name":"Break 1 End","hour":"19", "minute":"15"},{"name":"Lunch Start","hour":"21", "minute":"15"},{"name":"Lunch End","hour":"21", "minute":"45"},{"name":"Break 2 Start","hour":"23", "minute":"15"},{"name":"Break 2 End","hour":"23", "minute":"30"},{"name":"Day End","hour":"01", "minute":"00"}]},{"name":"1:00PM - 9:30PM","times":[{"name":"Day Start","hour":"17", "minute":"00"},{"name":"Break 1 Start","hour":"19", "minute":"15"},{"name":"Break 1 End","hour":"19", "minute":"30"},{"name":"Lunch Start","hour":"21", "minute":"45"},{"name":"Lunch End","hour":"22", "minute":"15"},{"name":"Break 2 Start","hour":"23", "minute":"45"},{"name":"Break 2 End","hour":"00", "minute":"00"},{"name":"Day End","hour":"01", "minute":"30"}]},{"name":"1:30PM - 10:00PM","times":[{"name":"Day Start","hour":"17", "minute":"30"},{"name":"Break 1 Start","hour":"19", "minute":"30"},{"name":"Break 1 End","hour":"19", "minute":"45"},{"name":"Lunch Start","hour":"22", "minute":"15"},{"name":"Lunch End","hour":"22", "minute":"45"},{"name":"Break 2 Start","hour":"00", "minute":"15"},{"name":"Break 2 End","hour":"00", "minute":"30"},{"name":"Day End","hour":"02", "minute":"00"}]}];
 		json_schedules.forEach(obj=>{
 			this.schedules.push(new Schedule(obj));
 		});
 		
 		this.schedules.forEach((obj, ix)=>{
-			this.dropdown.appendChild(new Option(obj.day.toString(), ix));
+			this.dropdown.appendChild(new Option(obj.name, ix));
 		});
 
 		this.dropdown.value = window.localStorage.getItem('current_schedule') ?? 0;
@@ -34,6 +43,7 @@ class ScheduleHandler{
 	handleScheduleChange(){
 		this.currentSchedule = Number.parseInt(this.dropdown.value);
 		window.localStorage.setItem('current_schedule', this.currentSchedule);
+		this.status.innerHTML = "";
 	}
 
 	tick(){
@@ -43,13 +53,18 @@ class ScheduleHandler{
 
 class Schedule{
 	constructor(json){
-		this.line = json.line;
-		this.day = new TimeInterval("Day", json.day);
-		this.B1 = new TimeInterval("Break 1", json.B1);
-		this.Lunch = new TimeInterval("Lunch", json.Lunch);
-		this.B2 = new TimeInterval("Break 2", json.B2);
+		this.name = json.name;
+		this.times = [].concat(json.times.map(el=>{ 
+			let tempDate = new Date();
+			tempDate.setUTCHours(el.hour, el.minute);
+			return { 
+				name: el.name, time: tempDate.getTime() 
+			}; 
+		}));
 
-		this.nextTime = Date.now();
+		this.nextTime = 0;
+		this.active = true;
+
 		this.updateState(null);
 	}
 
@@ -61,44 +76,37 @@ class Schedule{
 
 		if(this.nextTime <= nownow){
 
-			if(this.day.start > nownow){
-				this.next = "Start Your Day";
-				this.nextTime = this.day.start;
-			}else if(this.B1.start > nownow){
-				this.next = "Break 1";
-				this.nextTime = this.B1.start;
-			}else if(this.B1.end > nownow){
-				this.next = "Break 1 Is Over";
-				this.nextTime = this.B1.end;
-			}else if(this.Lunch.start > nownow){
-				this.next = "Lunch";
-				this.nextTime = this.Lunch.start;
-			}else if(this.Lunch.end > nownow){
-				this.next = "Lunch Is Over";
-				this.nextTime = this.Lunch.end;
-			}else if(this.B2.start > nownow){
-				this.next = "Break 2";
-				this.nextTime = this.B2.start;
-			}else if(this.B2.end > nownow){
-				this.next = "Break 2 Is Over";
-				this.nextTime = this.B2.end;
-			}else{
-				this.next = "End Your Day";
-				this.nextTime = this.day.end;
-			}
+			this.nextTime = 0;
+			this.nextName = "";
+			this.active = false;
+			console.log('Nownow: %d', nownow);
+
+			this.times.forEach(el=>{
+				console.log(el);
+				if(!this.active && el.time > nownow){
+					console.log('found time');
+					this.nextName = el.name;
+					this.nextTime = el.time;
+					this.active = true;
+				}
+			});
 		}
 
 		if(!el)
 			return;
+			
+		if(!this.active)
+			return;
 
-		let diff = this.nextTime.getTime() - Date.now();
+		let diff = this.nextTime - Date.now();
 
 		if(diff < 300000)
 			el.classList.add('fw-bold');
 		else
 			el.classList.remove('fw-bold');
 
-		el.innerHTML = this.next + ' in ' + TimeInterval.getHRTimeDifference(diff);
+		el.innerHTML = this.nextName + '<br/>' + TimeInterval.getHRTimeDifference(diff);
+
 	}
 }
 
@@ -216,7 +224,7 @@ class ScratchPad{
 		if(this.end_time <= Date.now())// || this.isEmpty())
 			return this.clear();
 
-		this.div_timer.innerHTML = "Note will clear in " + TimeInterval.getHRTimeUntil(this.end_time);
+		this.div_timer.innerHTML = "Secure Notes will erase in " + TimeInterval.getHRTimeUntil(this.end_time);
 	}
 
 	bump(){
@@ -237,4 +245,76 @@ class ScratchPad{
 
 	isEmpty(){ return this.txt_pad && this.txt_pad.value.trim().length > 0; }
 	static hideClass = 'd-none';
+}
+
+class BoroughManager{
+	constructor(){		
+		this.boroughs = ["Manhattan","Staten","Bronx","Queens","Brooklyn"].map(name=>new Borough(name));
+
+		this.initialize();
+	}
+
+	initialize(){
+		let boroughsIn = [
+			["Bronx", "10451"],["Bronx", "10452"],["Bronx", "10453"],["Bronx", "10454"],["Bronx", "10455"],["Bronx", "10456"],["Bronx", "10457"],["Bronx", "10458"],["Bronx", "10459"],["Bronx", "10460"],["Bronx", "10461"],["Bronx", "10462"],["Bronx", "10463"],["Bronx", "10464"],["Bronx", "10465"],["Bronx", "10466"],["Bronx", "10467"],["Bronx", "10468"],["Bronx", "10469"],["Bronx", "10470"],["Bronx", "10471"],["Bronx", "10472"],["Bronx", "10473"],["Bronx", "10474"],["Bronx", "10475"],
+			["Brooklyn", "11201"],["Brooklyn", "11203"],["Brooklyn", "11204"],["Brooklyn", "11205"],["Brooklyn", "11206"],["Brooklyn", "11207"],["Brooklyn", "11208"],["Brooklyn", "11209"],["Brooklyn", "11210"],["Brooklyn", "11211"],["Brooklyn", "11212"],["Brooklyn", "11213"],["Brooklyn", "11214"],["Brooklyn", "11215"],["Brooklyn", "11216"],["Brooklyn", "11217"],["Brooklyn", "11218"],["Brooklyn", "11219"],["Brooklyn", "11220"],["Brooklyn", "11221"],["Brooklyn", "11222"],["Brooklyn", "11223"],["Brooklyn", "11224"],["Brooklyn", "11225"],["Brooklyn", "11226"],["Brooklyn", "11228"],["Brooklyn", "11229"],["Brooklyn", "11230"],["Brooklyn", "11231"],["Brooklyn", "11232"],["Brooklyn", "11233"],["Brooklyn", "11234"],["Brooklyn", "11235"],["Brooklyn", "11236"],["Brooklyn", "11237"],["Brooklyn", "11238"],["Brooklyn", "11239"],["Brooklyn", "11241"],["Brooklyn", "11242"],["Brooklyn", "11243"],["Brooklyn", "11249"],["Brooklyn", "11252"],["Brooklyn", "11256"],
+			["Manhattan", "10001"],["Manhattan", "10002"],["Manhattan", "10003"],["Manhattan", "10004"],["Manhattan", "10005"],["Manhattan", "10006"],["Manhattan", "10007"],["Manhattan", "10009"],["Manhattan", "10010"],["Manhattan", "10011"],["Manhattan", "10012"],["Manhattan", "10013"],["Manhattan", "10014"],["Manhattan", "10015"],["Manhattan", "10016"],["Manhattan", "10017"],["Manhattan", "10018"],["Manhattan", "10019"],["Manhattan", "10020"],["Manhattan", "10021"],["Manhattan", "10022"],["Manhattan", "10023"],["Manhattan", "10024"],["Manhattan", "10025"],["Manhattan", "10026"],["Manhattan", "10027"],["Manhattan", "10028"],["Manhattan", "10029"],["Manhattan", "10030"],["Manhattan", "10031"],["Manhattan", "10032"],["Manhattan", "10033"],["Manhattan", "10034"],["Manhattan", "10035"],["Manhattan", "10036"],["Manhattan", "10037"],["Manhattan", "10038"],["Manhattan", "10039"],["Manhattan", "10040"],["Manhattan", "10041"],["Manhattan", "10044"],["Manhattan", "10045"],["Manhattan", "10048"],["Manhattan", "10055"],["Manhattan", "10060"],["Manhattan", "10069"],["Manhattan", "10090"],["Manhattan", "10095"],["Manhattan", "10098"],["Manhattan", "10099"],["Manhattan", "10103"],["Manhattan", "10104"],["Manhattan", "10105"],["Manhattan", "10106"],["Manhattan", "10107"],["Manhattan", "10110"],["Manhattan", "10111"],["Manhattan", "10112"],["Manhattan", "10115"],["Manhattan", "10118"],["Manhattan", "10119"],["Manhattan", "10120"],["Manhattan", "10121"],["Manhattan", "10122"],["Manhattan", "10123"],["Manhattan", "10128"],["Manhattan", "10151"],["Manhattan", "10152"],["Manhattan", "10153"],["Manhattan", "10154"],["Manhattan", "10155"],["Manhattan", "10158"],["Manhattan", "10161"],["Manhattan", "10162"],["Manhattan", "10165"],["Manhattan", "10166"],["Manhattan", "10167"],["Manhattan", "10168"],["Manhattan", "10169"],["Manhattan", "10170"],["Manhattan", "10171"],["Manhattan", "10172"],["Manhattan", "10173"],["Manhattan", "10174"],["Manhattan", "10175"],["Manhattan", "10176"],["Manhattan", "10177"],["Manhattan", "10178"],["Manhattan", "10199"],["Manhattan", "10270"],["Manhattan", "10271"],["Manhattan", "10278"],["Manhattan", "10279"],["Manhattan", "10280"],["Manhattan", "10281"],["Manhattan", "10282"],
+			["Queens", "11004"],["Queens", "11101"],["Queens", "11102"],["Queens", "11103"],["Queens", "11104"],["Queens", "11105"],["Queens", "11106"],["Queens", "11109"],["Queens", "11351"],["Queens", "11354"],["Queens", "11355"],["Queens", "11356"],["Queens", "11357"],["Queens", "11358"],["Queens", "11359"],["Queens", "11360"],["Queens", "11361"],["Queens", "11362"],["Queens", "11363"],["Queens", "11364"],["Queens", "11365"],["Queens", "11366"],["Queens", "11367"],["Queens", "11368"],["Queens", "11369"],["Queens", "11370"],["Queens", "11371"],["Queens", "11372"],["Queens", "11373"],["Queens", "11374"],["Queens", "11375"],["Queens", "11377"],["Queens", "11378"],["Queens", "11379"],["Queens", "11385"],["Queens", "11411"],["Queens", "11412"],["Queens", "11413"],["Queens", "11414"],["Queens", "11415"],["Queens", "11416"],["Queens", "11417"],["Queens", "11418"],["Queens", "11419"],["Queens", "11420"],["Queens", "11421"],["Queens", "11422"],["Queens", "11423"],["Queens", "11426"],["Queens", "11427"],["Queens", "11428"],["Queens", "11429"],["Queens", "11430"],["Queens", "11432"],["Queens", "11433"],["Queens", "11434"],["Queens", "11435"],["Queens", "11436"],["Queens", "11691"],["Queens", "11692"],["Queens", "11693"],["Queens", "11694"],["Queens", "11697"]["Queens", "11697"],
+			["Staten", "10301"],["Staten", "10302"],["Staten", "10303"],["Staten", "10304"],["Staten", "10305"],["Staten", "10306"],["Staten", "10307"],["Staten", "10308"],["Staten", "10309"],["Staten", "10310"],["Staten", "10311"],["Staten", "10312"],["Staten", "10314"]
+		];
+
+		let bIndex;
+
+		boroughsIn.forEach((el)=>{
+			try{
+				if(el){
+					bIndex = this.boroughs.findIndex(b=>b.name === el[0]);
+					if(bIndex > -1)
+						this.boroughs[bIndex].addZip(el[1]);
+					else
+						console.log("Could not find %s", el[0]);
+				}
+			}catch(e){ console.log(e); }	
+		});
+	}
+
+	findBorough(zip){
+		zip = (new String(zip)).trim();
+
+		let retval = "Not found", found = false;
+
+		this.boroughs.forEach(b=>{
+			if(!found && b.containsZip(zip)){
+				found = true; retval = b.name;
+			}
+		});
+		return retval;
+	}
+}
+
+class Borough{
+	constructor(name){
+		this.name = name;
+		this.zips = [];
+	}
+
+	containsZip(zip){
+
+		if(!(zip instanceof String))
+			zip = (new String(zip)).trim();
+
+		return this.zips.indexOf(zip) >= 0;
+	}
+
+	addZip(zip){
+		zip = (new String(zip)).trim();
+
+		if(!Borough.zipRegex.test(zip))
+			throw new Error("Invalid Zip: %s", zip);
+
+		this.zips.push(zip);
+		this.zips.sort();		
+	}
+
+	static zipRegex = /^\d{5}$/;
 }
