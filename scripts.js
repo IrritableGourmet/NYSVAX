@@ -4,8 +4,13 @@ class PageHandler{
 			this.notification_handler = new NotificationHandler();
 
 			this.schedule_handler = new ScheduleHandler("dd_schedules", "div_schedules_status", this.notification_handler);
+			
 			this.scratchpad = new ScratchPad("txt_hippa", "div_hippa_alert", "div_hippa_timer", "btn_hippa_bump", "btn_hippa_clear", this.notification_handler);
+			
 			this.county_handler = new CountyHandler("txt_county_zip", "btn_county_lookup", "btn_county_clear", "div_county_output", this.notification_handler);
+
+			this.second_dose_handler = new SecondDoseHandler("dd_second_vaccine", "dd_second_month", "dd_second_day", "div_second_output");
+
 		}catch(e){console.log(e);}
 	}
 }
@@ -651,4 +656,69 @@ class County{
 	}
 
 	static zipRegex = /^\d{5}$/;
+}
+
+class SecondDoseHandler{
+	constructor(vaccine_id, month_id, day_id, output_id){
+		this.months = [ { name : "January", length: 31 }, { name : "February", length: 28 }, { name : "March", length: 31 }, { name : "April", length: 30 }, { name : "May", length: 31 }, { name : "June", length: 30 }, { name : "July", length: 31 }, { name : "August", length: 31 }, { name : "September", length: 30 }, { name : "October", length: 31 }, { name : "November", length: 30 }, { name : "December", length: 31 } ]; 
+
+		this.vaccine = document.getElementById(vaccine_id);
+
+		this.month = document.getElementById(month_id);
+
+		this.day = document.getElementById(day_id);
+
+		this.output = document.getElementById(output_id);
+
+		this.today = new Date();
+		this.cur_vaccine = 21;
+		this.cur_month = this.today.getMonth();
+		this.cur_day = this.today.getDate();
+		this.cur_year = this.today.getFullYear();
+
+		this.initialize();
+	}
+
+	initialize(){
+		let cur_month = (new Date()).getMonth();
+
+		this.months.forEach((m, ix)=>{ 
+			this.month.appendChild(new Option(m.name, ix, ix == cur_month, ix == cur_month)); 
+		});
+
+		for(let d = 1; d <= 31; d++)
+			this.day.appendChild(new Option(d, d));
+
+		this.vaccine.addEventListener('change', this.vaccineChange.bind(this));
+		this.month.addEventListener('change', this.monthChange.bind(this));
+		this.day.addEventListener('change', this.dayChange.bind(this));
+
+		this.vaccineChange();
+	}
+
+	vaccineChange(){
+		this.cur_vaccine = Number.parseInt(this.vaccine.value ?? "21");
+		this.monthChange();
+	}
+
+	monthChange(){
+		this.cur_month = Number.parseInt(this.month.value);
+
+		let days_in_month = this.months[this.cur_month].length - 1; //make it 0-based
+
+		let days = this.day.options;
+
+		for(let i = 0; i < days.length; i++)
+			this.day[i].disabled = i > days_in_month;
+
+		this.dayChange();
+	}
+
+	dayChange(){
+		this.cur_day = Number.parseInt(this.day.value);
+
+		let second_dose = new Date(this.cur_year, this.cur_month + 1, this.cur_day + this.cur_vaccine);
+
+		this.output.innerHTML = "Second dose will be on " + second_dose.toLocaleDateString();
+	}
 }

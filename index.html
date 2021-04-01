@@ -16,7 +16,7 @@
 			<div class="col-12">
 				<div class="border bg-light p-3">
 					<h2>ScratchPad</h2>
-					<button type="button" class="btn btn-info" id="btn_testing">Testing</button>
+					<!--<button type="button" class="btn btn-info" id="btn_testing">Testing</button>-->
 				</div>
 			</div>
 			
@@ -29,12 +29,29 @@
 
 				<div class="border bg-light p-3 mb-3">
 					<h4>County Lookup</h4>
-					<input type="number" pattern="\d{5}" id="txt_county_zip" class="form-control" title="ZIP"/>
+					<input type="number" pattern="\d{5}" id="txt_county_zip" class="form-control" title="ZIP" placeholder="ZIP Code"/>
 					<div class="btn-group col-12" role="group">
 						<button type="button" id="btn_county_lookup" class="btn btn-primary">Find County</button>
 						<button type="button" id="btn_county_clear" class="btn btn-warning">Clear</button>
 					</div>					
 					<div class="alert alert-info d-none" id="div_county_output"></div>
+				</div>
+
+				<div class="border bg-light p-3 mb-3">
+					<h4>Second Dose</h4>
+					<div class="col-auto">
+						<select class="form-select" id="dd_second_vaccine">
+							<option value="21" selected>Pfizer</option>
+							<option value="28">Moderna</option>
+						</select>
+					</div>
+					<div class="col-auto">
+						<select class="form-select" id="dd_second_month"></select>
+					</div>
+					<div class="col-auto">
+						<select class="form-select" id="dd_second_day"></select>
+					</div>
+					<div class="alert alert-info" id="div_second_output"></div>
 				</div>
 			</div>
 
