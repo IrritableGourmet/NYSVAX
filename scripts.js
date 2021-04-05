@@ -231,7 +231,7 @@ class TimeInterval{
 			minutes = Math.floor(diff / TimeInterval.msecMinute) % 60,
 			hours = Math.floor(diff / TimeInterval.msecHour);
 
-		return (sign < 0 ? '-' : '') + (hours > 0 ? hours.toString() + ' hr, ' : '') + (minutes > 0 ? minutes.toString() + ' min, ' : '') + seconds.toString() + ' sec';
+		return (sign < 0 ? '-' : '') + (hours > 0 ? hours.toString() + ':' : '') + (minutes > 0 ? minutes.toString().padStart(2, '0') + ':' : '') + seconds.toString().padStart(2, '0');
 	}
 
 	static getHRTimeUntil(time){
@@ -680,14 +680,15 @@ class SecondDoseHandler{
 	}
 
 	initialize(){
-		let cur_month = (new Date()).getMonth();
+		let cur_month = (new Date()).getMonth(),
+			cur_day = (new Date()).getDate();
 
 		this.months.forEach((m, ix)=>{ 
 			this.month.appendChild(new Option(m.name, ix, ix == cur_month, ix == cur_month)); 
 		});
 
 		for(let d = 1; d <= 31; d++)
-			this.day.appendChild(new Option(d, d));
+			this.day.appendChild(new Option(d, d, d == cur_day, d == cur_day));
 
 		this.vaccine.addEventListener('change', this.vaccineChange.bind(this));
 		this.month.addEventListener('change', this.monthChange.bind(this));
@@ -704,11 +705,10 @@ class SecondDoseHandler{
 	monthChange(){
 		this.cur_month = Number.parseInt(this.month.value);
 
-		let days_in_month = this.months[this.cur_month].length - 1; //make it 0-based
+		let days_in_month = this.months[this.cur_month].length - 1, //make it 0-based
+			days = this.day.options.length;
 
-		let days = this.day.options;
-
-		for(let i = 0; i < days.length; i++)
+		for(let i = 0; i < days; i++)
 			this.day[i].disabled = i > days_in_month;
 
 		this.dayChange();
@@ -717,8 +717,8 @@ class SecondDoseHandler{
 	dayChange(){
 		this.cur_day = Number.parseInt(this.day.value);
 
-		let second_dose = new Date(this.cur_year, this.cur_month + 1, this.cur_day + this.cur_vaccine);
+		let second_dose = new Date(this.cur_year, this.cur_month, this.cur_day + this.cur_vaccine);
 
-		this.output.innerHTML = "Second dose will be on " + second_dose.toLocaleDateString();
+		this.output.innerHTML = this.cur_vaccine + " days will be " + second_dose.toLocaleDateString();
 	}
 }
