@@ -7,7 +7,7 @@
   <title>NYSVAX Utilities</title>
   <meta name="description" content="">
   <meta name="author" content="">
-  <link rel="stylesheet" href="bootstrap.css"/>
+  <link rel="stylesheet" href="../bootstrap.css"/>
 </head>
 
 <body>
@@ -15,14 +15,14 @@
 		<div class="row gy-3 gx-2">
 			<div class="col-12">
 				<div class="border bg-light p-3">
-					Status
+					Utilities
 				</div>
 			</div>
 
 			<div class="col-12">
 				<div class="border bg-light p-3">
 					<button type="button" id="btn_calculate" class="btn btn-primary">Calculate</button>
-					<textarea id="txt_hippa" class="form-control" style="min-height: 400px"></textarea>
+					<textarea id="txt_hippa" class="form-control" style=""></textarea>
 				</div>
 			</div>
 
@@ -35,9 +35,9 @@
 	</div>
 </body>
 
-<script type='text/javascript' src="ScheduleCalculator.js"></script>
+<script type='text/javascript' src="utility.js"></script>
 <script type='text/javascript'>
-	window.schedules = new ScheduleCalculator("btn_calculate", "txt_hippa", "txt_output");
+	window.schedules = new UtilityHandler("btn_calculate", "txt_hippa", "txt_output");
 </script>
 
 </html>
