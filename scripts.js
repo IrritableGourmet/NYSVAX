@@ -5,13 +5,46 @@ class PageHandler{
 
 			this.schedule_handler = new ScheduleHandler("dd_schedules", "div_schedules_status", this.notification_handler);
 			
-			this.scratchpad = new ScratchPad("txt_hippa", "div_hippa_alert", "div_hippa_timer", "btn_hippa_bump", "btn_hippa_clear", this.notification_handler);
+			this.scratchpad = new ScratchPadHandler("txt_hippa", "div_hippa_alert", "div_hippa_timer", "btn_hippa_bump", "btn_hippa_clear", this.notification_handler);
 			
 			this.county_handler = new CountyHandler("txt_county_zip", "btn_county_lookup", "btn_county_clear", "div_county_output", this.notification_handler);
 
 			this.second_dose_handler = new SecondDoseHandler("dd_second_vaccine", "dd_second_month", "dd_second_day", "div_second_output");
 
+			this.oracle_handler = new OracleHandler("tbl_oracle");
+
 		}catch(e){ console.log(e); }
+	}
+}
+
+class GenericHandler{
+	constructor(el){
+		this.parent = this.findParent(document.getElementById(el));
+	}
+
+	findParent(el){
+
+		if(!(el && el instanceof Element))
+			return null;
+		
+		if(el.classList.contains('widget'))
+			return el;
+
+		return this.findParent(el.parentElement);
+	}
+
+	hide(){
+		if(this.hasParent())
+			this.parent.classList.add('d-none');
+	}
+
+	unhide(){
+		if(this.hasParent())
+			this.parent.classList.remove('d-none');
+	}
+
+	hasParent(){
+		return (this.parent && this.parent instanceof Element);
 	}
 }
 
@@ -65,8 +98,9 @@ class NotificationHandler{
 	}
 }
 
-class ScheduleHandler{
+class ScheduleHandler extends GenericHandler{
 	constructor(dropdown_id, status_id, notification_handler){
+		super(dropdown_id);
 
 		this.schedules = [];
 		this.currentSchedule = 0;
@@ -75,6 +109,7 @@ class ScheduleHandler{
 
 		this.dropdown = document.getElementById(dropdown_id);
 		this.status = document.getElementById(status_id);
+
 
 		if(!this.dropdown)
 			throw new Error("Unable to find dropdown!");
@@ -98,6 +133,8 @@ class ScheduleHandler{
 		this.timer = setInterval(this.tick.bind(this), 1000);
 
 		this.handleScheduleChange();
+
+		this.unhide();
 	}
 
 	handleScheduleChange(){
@@ -245,8 +282,10 @@ class TimeInterval{
 	static msecSecond = 1000;
 }
 
-class ScratchPad{
+class ScratchPadHandler extends GenericHandler{
 	constructor(text_id, alert_id, timer_id, bump_id, clear_id){
+		super(text_id);
+
 		this.txt_pad = document.getElementById(text_id);
 		this.div_alert = document.getElementById(alert_id);
 		this.div_timer = document.getElementById(timer_id);
@@ -275,6 +314,7 @@ class ScratchPad{
 		this.interval = 0;
 		this.end_time = null;
 		this.clear();
+		this.unhide();
 	}
 
 	start(){
@@ -288,7 +328,7 @@ class ScratchPad{
 		
 		this.interval = setInterval(this.tick.bind(this), 200);
 
-		this.div_alert.classList.remove(ScratchPad.hideClass);
+		this.div_alert.classList.remove(ScratchPadHandler.hideClass);
 
 		this.tick();
 	}
@@ -313,15 +353,17 @@ class ScratchPad{
 
 		this.end_time = 0;
 		this.txt_pad.value = '';
-		this.div_alert.classList.add(ScratchPad.hideClass);
+		this.div_alert.classList.add(ScratchPadHandler.hideClass);
 	}
 
 	isEmpty(){ return this.txt_pad && this.txt_pad.value.trim().length > 0; }
 	static hideClass = 'd-none';
 }
 
-class CountyHandler{
+class CountyHandler extends GenericHandler{
 	constructor(txt_id, lookup_id, clear_id, output_id){
+		super(txt_id);
+
 		this.input = document.getElementById(txt_id);
 		this.btn_lookup = document.getElementById(lookup_id);
 		this.btn_clear = document.getElementById(clear_id);
@@ -349,7 +391,8 @@ class CountyHandler{
 			resp.json().then((county_arr)=>{
 				county_arr.forEach((c)=>{
 					this.Counties.push(new County(c));
-				})
+				});
+				this.unhide();
 			}, this.loadFailure.bind(this));
 		}
 	}
@@ -428,14 +471,15 @@ class County{
 	}
 
 	toString(){
-		return "<b>County:</b>" + this.name + "<br/><b>Phone:</b> " + this.phone;
+		return "<b>County:</b> " + this.name + "<br/><b>Phone:</b> " + this.phone;
 	}
 
 	static zipRegex = /^\d{5}$/;
 }
 
-class SecondDoseHandler{
+class SecondDoseHandler extends GenericHandler{
 	constructor(vaccine_id, month_id, day_id, output_id){
+		super(vaccine_id);
 		this.months = [ { name : "January", length: 31 }, { name : "February", length: 28 }, { name : "March", length: 31 }, { name : "April", length: 30 }, { name : "May", length: 31 }, { name : "June", length: 30 }, { name : "July", length: 31 }, { name : "August", length: 31 }, { name : "September", length: 30 }, { name : "October", length: 31 }, { name : "November", length: 30 }, { name : "December", length: 31 } ]; 
 
 		this.vaccine = document.getElementById(vaccine_id);
@@ -471,6 +515,7 @@ class SecondDoseHandler{
 		this.day.addEventListener('change', this.dayChange.bind(this));
 
 		this.vaccineChange();
+		this.unhide();
 	}
 
 	vaccineChange(){
@@ -496,5 +541,56 @@ class SecondDoseHandler{
 		let second_dose = new Date(this.cur_year, this.cur_month, this.cur_day + this.cur_vaccine);
 
 		this.output.innerHTML = this.cur_vaccine + " days will be " + second_dose.toLocaleDateString();
+	}
+}
+
+class OracleHandler extends GenericHandler{
+	constructor(table_id){
+		super(table_id);
+		this.table = document.getElementById(table_id);
+		this.loadData();
+	}
+
+	loadData(){
+		fetch('data/oracle.json', {
+			method: 'GET'
+		}).then(this.loadSuccess.bind(this), this.loadFailure.bind(this));
+	}
+
+	loadSuccess(resp){
+		if(resp.ok)
+			resp.json().then(this.loadJSON.bind(this), this.loadFailure.bind(this))
+		else
+			this.loadFailure(resp);
+	}
+
+	loadFailure(reason){
+		console.log(reason);
+	}
+
+	loadJSON(json){
+		this.answers = json.answers;
+		this.table.innerHTML = '';
+		
+		let tbody = document.createElement('tbody');
+		this.answers.forEach((ans)=>{
+			tbody.appendChild(this.createRow(ans[0], ans[1]));
+		});
+
+		this.table.appendChild(tbody);
+		this.unhide();
+	}
+
+	createRow(id, name){
+		let retval = document.createElement('tr');
+		retval.appendChild(this.createCell(id, true));
+		retval.appendChild(this.createCell(name));
+		return retval;
+	}
+
+	createCell(text, isHeader = false){
+		let retval = document.createElement(isHeader ? 'th' : 'td');
+		retval.appendChild(document.createTextNode(new String(text)));
+		return retval;
 	}
 }

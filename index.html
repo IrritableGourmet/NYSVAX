@@ -5,66 +5,77 @@
   <meta charset="utf-8">
 
   <title>NYSVAX Agent Scratchpad</title>
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <link rel="stylesheet" href="bootstrap.css"/>
+  <meta name="description" content="Utility page for VAX Agents">
+  <meta name="author" content="NMS">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles/bootstrap.css"/>
 </head>
 
 <body>
-
 	<nav class="navbar navbar-dark bg-dark">
 		<div class="container-fluid">
-		  <a class="navbar-brand">NYS VAX</a>
+		  <a class="navbar-brand" href="#">NYS VAX</a>
 		</div>
 	  </nav>
 
 	<div class="container-fluid mt-3 vh-100">
 		<div class="row gy-3 gx-2">
 			<div class="col-lg-3 order-sm-2 order-lg-1">
-				<div class="border bg-light p-3 mb-3">
-					<h4>Schedule</h4>
-					<select id="dd_schedules" class="form-select form-select-sm"></select>
-					<div class="alert alert-primary" id="div_schedules_status"></div>
-				</div>
-
-				<div class="border bg-light p-3 mb-3">
-					<h4>County Lookup</h4>
-					<input type="number" pattern="\d{5}" id="txt_county_zip" class="form-control form-control-sm" title="ZIP" placeholder="ZIP Code"/>
-					<div class="btn-group col-12" role="group">
-						<button type="button" id="btn_county_lookup" class="btn btn-primary">Find County</button>
-						<button type="button" id="btn_county_clear" class="btn btn-warning">Clear</button>
-					</div>					
-					<div class="alert alert-info d-none" id="div_county_output"></div>
-				</div>
-
-				<div class="border bg-light p-3 mb-3">
-					<h4>Delays</h4>					
-					<select class="form-select form-select-sm" id="dd_second_vaccine">
-						<option value="21" selected>Pfizer 2nd</option>
-						<option value="28">Moderna 2nd</option>
-						<option value="90">Positive COVID</option>
-					</select>
-					<div class="input-group">
-						<select class="form-select form-select-sm" id="dd_second_month"></select>
-						<select class="form-select form-select-sm" id="dd_second_day"></select>
+				<div class="border bg-light h-100">
+					<div class="p-3 widget d-none">
+						<h4>Schedule</h4>
+						<select id="dd_schedules" class="form-select form-select-sm" aria-label="Schedule"></select>
+						<div class="alert alert-primary" id="div_schedules_status"></div>
 					</div>
-					<div class="alert alert-info" id="div_second_output"></div>
+
+					<div class="p-3 widget d-none">
+						<h4>County Lookup</h4>
+						<input type="number" pattern="\d{5}" id="txt_county_zip" class="form-control form-control-sm" title="ZIP" placeholder="ZIP Code" aria-label="ZIP"/>
+						<div class="btn-group col-12" role="group">
+							<button type="button" id="btn_county_lookup" class="btn btn-primary" aria-label="Find Country">Find County</button>
+							<button type="button" id="btn_county_clear" class="btn btn-warning" aria-label="Clear">Clear</button>
+						</div>					
+						<div class="alert alert-info d-none" id="div_county_output"></div>
+					</div>
+
+					<div class="p-3 widget d-none">
+						<h4>Delays</h4>					
+						<select class="form-select form-select-sm" id="dd_second_vaccine" aria-label="Delay Type">
+							<option value="21" selected>Pfizer 2nd</option>
+							<option value="28">Moderna 2nd</option>
+							<option value="90">Positive COVID</option>
+						</select>
+						<div class="input-group">
+							<select class="form-select form-select-sm" id="dd_second_month" aria-label="Month"></select>
+							<select class="form-select form-select-sm" id="dd_second_day" aria-label="Day"></select>
+						</div>
+						<div class="alert alert-info" id="div_second_output"></div>
+					</div>
 				</div>
 			</div>
 
 			<div class="col-lg-9 order-sm-1 order-lg-2">
-				<div class="border bg-light p-3">
-					<h4>Secure Notes</h4>
-					
-					<textarea id="txt_hippa" class="form-control" style="min-height: 400px"></textarea>
-					
-					<div class="alert alert-danger d-none" role="alert" id="div_hippa_alert">
-						<div id="div_hippa_timer"></div>
-						<div class="btn-group col-12" role="group">
-							<button type="button" id="btn_hippa_bump" class="btn btn-primary">Extend</button>
-							<button type="button" id="btn_hippa_clear" class="btn btn-warning">Clear</button>
+				<div class="border bg-light h-100">
+					<div class="p-3 widget d-none">
+						<h4>Secure Notes</h4>
+						<textarea id="txt_hippa" class="form-control" style="min-height: 400px" aria-label="Secure Notes"></textarea>					
+						<div class="alert alert-danger d-none" role="alert" id="div_hippa_alert">
+							<div id="div_hippa_timer"></div>
+							<div class="btn-group col-12" role="group">
+								<button type="button" id="btn_hippa_bump" class="btn btn-primary" aria-label="Extend">Extend</button>
+								<button type="button" id="btn_hippa_clear" class="btn btn-warning" aria-label="Clear">Clear</button>
+							</div>
 						</div>
-					</div>					
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row gy-3 gx-2 mt-1">
+			<div class="col-12 order-sm-3 order-lg-3">
+				<div class="border bg-light p-3 mb-3 widget d-none">
+					<h4>Common Oracle Topics</h4>
+					<table class="table table-hover" id="tbl_oracle"></table>
 				</div>
 			</div>
 		</div>
