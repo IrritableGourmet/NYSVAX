@@ -11,7 +11,7 @@ class PageHandler{
 
 			this.second_dose_handler = new SecondDoseHandler("dd_second_vaccine", "dd_second_month", "dd_second_day", "div_second_output");
 
-		}catch(e){console.log(e);}
+		}catch(e){ console.log(e); }
 	}
 }
 
@@ -231,7 +231,7 @@ class TimeInterval{
 			minutes = Math.floor(diff / TimeInterval.msecMinute) % 60,
 			hours = Math.floor(diff / TimeInterval.msecHour);
 
-		return (sign < 0 ? '-' : '') + (hours > 0 ? hours.toString() + ':' : '') + (minutes > 0 ? minutes.toString().padStart(2, '0') + ':' : '') + seconds.toString().padStart(2, '0');
+		return (sign < 0 ? '-' : '') + hours.toString().padStart(2, '0') + ':' + minutes.toString().padStart(2, '0') + ':' + seconds.toString().padStart(2, '0');
 	}
 
 	static getHRTimeUntil(time){
